@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build the Docker image
+      run: docker build -t hyejeong0807/docker-react-app -f Dockerfile.dev .
+
+    - name: Test the Docker image
+      run: docker run -e CI=true hyejeong0807/docker-react-app npm run test
+      
+    - name: Test success
+      run: echo "Test success"
